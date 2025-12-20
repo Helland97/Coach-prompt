@@ -29,11 +29,7 @@ All model responses MUST follow this schema exactly.
   "safety_notes": ["string"]
 }
 
-
-
-## 3️⃣ Why this schema is well-designed (you should understand this)
-
-This isn’t random — it’s **engineering**.
+```
 
 ### Key design decisions
 
@@ -60,13 +56,7 @@ Forces:
 
 This is *much* better than “free text advice”.
 
----
 
-## 4️⃣ Define what the system does NOT do (important)
-
-Add this section to README:
-
-```md
 ## Non-goals
 
 This system does NOT:
