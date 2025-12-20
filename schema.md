@@ -1,16 +1,3 @@
-# Coach-Prompt
-
-Coach-Prompt is a local AI-powered strength coaching assistant.
-It analyzes short text descriptions of lifts and returns
-structured, actionable coaching feedback.
-
-The system is designed to:
-- Avoid over-coaching
-- Prioritize safety
-- Return machine-readable output (JSON)
-- Run locally using Ollama (no paid APIs)
-
-
 ## Coaching Output Schema (v1)
 
 All model responses MUST follow this schema exactly.
@@ -30,6 +17,8 @@ All model responses MUST follow this schema exactly.
 }
 
 
+
+---
 
 ## 3️⃣ Why this schema is well-designed (you should understand this)
 
@@ -74,14 +63,3 @@ This system does NOT:
 - Replace a certified coach
 - Analyze video or biomechanics (yet)
 - Provide medical advice
-
-
-
-## Input Format
-
-The system currently accepts:
-- Exercise name (string)
-- Free-text description of perceived issues
-
-Example input:
-"I feel my knees cave in at the bottom and I lose tightness"
