@@ -1,14 +1,25 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from backend.langchain_pipeline import get_coaching_output
+from backend.langchain_pipeline import get_coaching_output, warmup_llm
 from backend.models.coaching_output import CoachingOutput
 
-app = FastAPI(
-    title="Coach-Prompt API",
-    description="AI-powered strength coaching assistant",
-    version="0.1.0"
-)
+from contextlib import asynccontextmanager
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        warmup_llm()
+        print("✅ LLM warmed up")
+    except Exception as e:
+        print("⚠️ LLM warmup failed:", e)
+
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+
 
 
 class CoachingRequest(BaseModel):
@@ -51,3 +62,16 @@ Schema:
 }}
 """
     return get_coaching_output(prompt)
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "ok",
+        "llm": "ollama",
+        "model": "llama3.2:3b"
+    }
+
+@app.post("/coach", response_model=CoachingOutput)
+def coach(request: CoachingRequest):
+    print("RAW REQUEST:", request)

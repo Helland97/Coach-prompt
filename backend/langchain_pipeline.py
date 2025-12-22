@@ -1,4 +1,5 @@
 import json
+import os
 
 from langchain_ollama import OllamaLLM
 from pydantic import ValidationError
@@ -8,9 +9,16 @@ from backend.models.coaching_output import CoachingOutput
 MAX_RETRIES = 3
 MIN_CONFIDENCE = 0.6
 
+OLLAMA_BASE_URL = os.getenv(
+    "OLLAMA_BASE_URL",
+    "http://localhost:11434"  # default for local dev
+)
+
 llm = OllamaLLM(
     model="llama3.2:3b",
-    temperature=0.2
+    base_url=OLLAMA_BASE_URL,
+    temperature=0.2,
+    num_predict=256
 )
 
 
@@ -45,3 +53,7 @@ def fallback_response() -> CoachingOutput:
         accessory_exercises=[],
         safety_notes=["Consult a qualified coach if unsure"]
     )
+
+
+def warmup_llm():
+    llm.invoke("Say ready.")
