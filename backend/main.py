@@ -1,8 +1,9 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from backend.langchain_pipeline import get_coaching_output, warmup_llm
-from backend.models.coaching_output import CoachingOutput
+from langchain_pipeline import get_coaching_output, warmup_llm
+from models.coaching_output import CoachingOutput
 
 from contextlib import asynccontextmanager
 
@@ -20,7 +21,16 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",  # Next.js dev
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],  # IMPORTANT: allows OPTIONS
+    allow_headers=["*"],
+)
 
 class CoachingRequest(BaseModel):
     exercise: str

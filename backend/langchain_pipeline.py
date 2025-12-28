@@ -4,7 +4,7 @@ import os
 from langchain_ollama import OllamaLLM
 from pydantic import ValidationError
 
-from backend.models.coaching_output import CoachingOutput
+from models.coaching_output import CoachingOutput
 
 MAX_RETRIES = 3
 MIN_CONFIDENCE = 0.6
